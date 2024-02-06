@@ -21,6 +21,21 @@ public class yourPrimeClient {
 			e.printStackTrace();
 		}
 	}
+
+	public void go() throws UnknownHostException, IOException {
+		Socket sk = new Socket("127.0.0.1", 4444);
+
+		PrintWriter writer = new PrintWriter(sk.getOutputStream());
+		writer.println("GET-B");
+		writer.flush();
+
+		InputStreamReader streamReader = new InputStreamReader(sk.getInputStream());
+		BufferedReader reader = new BufferedReader(streamReader);
+
+		// close stream and socket
+		reader.close();
+		sk.close();
+	}
 	
 	// TODO complete to login function - user will contact server add request access to myMedia library
 	// The server will authenticate user's login information, verify, and perform additional check on outstanding fees

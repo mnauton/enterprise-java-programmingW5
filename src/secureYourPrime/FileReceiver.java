@@ -1,3 +1,4 @@
+/*
 package secureYourPrime;
 
 import java.io.BufferedReader;
@@ -68,3 +69,4 @@ public class FileReceiver implements Runnable {
         this.cipher.init(Cipher.DECRYPT_MODE, secretKey, new IvParameterSpec(fileIv));
 	}
 }
+*/

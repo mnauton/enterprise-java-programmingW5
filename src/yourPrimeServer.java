@@ -25,7 +25,14 @@ public class yourPrimeServer {
 	// verify user and check outstanding fees status. Return the correct message to the client.
 	//
 	public void go() throws IOException {
-
+		try (ServerSocket serverSock = new ServerSocket(4444)) {
+			while(true) {
+				Socket s = serverSock.accept();
+				BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
+				PrintWriter writer = new PrintWriter(s.getOutputStream());
+				writer.close();
+			}
+		}
 	}
 
 	// TODO Complete authenticate using the utility boolean methods available here. You need to return the following 
@@ -35,7 +42,9 @@ public class yourPrimeServer {
 	// 3 = Outstanding fees - you are barred -> if account is overdue
 	//
 	private String authenticate(String input) {
-
+		System.out.println("Access granted");
+		System.out.println("Wrong credentials");
+		System.out.println("Outstanding fees - you are barred ");
 	}
 
 	private boolean checkUser(String user, String password) {
