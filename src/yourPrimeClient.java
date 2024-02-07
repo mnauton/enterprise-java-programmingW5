@@ -22,27 +22,21 @@ public class yourPrimeClient {
 		}
 	}
 
-	public void go() throws UnknownHostException, IOException {
-		Socket sk = new Socket("127.0.0.1", 4444);
-
-		PrintWriter writer = new PrintWriter(sk.getOutputStream());
-		writer.println("GET-B");
-		writer.flush();
-
-		InputStreamReader streamReader = new InputStreamReader(sk.getInputStream());
-		BufferedReader reader = new BufferedReader(streamReader);
-
-		// close stream and socket
-		reader.close();
-		sk.close();
-	}
-	
 	// TODO complete to login function - user will contact server add request access to myMedia library
 	// The server will authenticate user's login information, verify, and perform additional check on outstanding fees
 	//
 	public void login(Subscriber user) throws UnknownHostException, IOException {
 		Socket s = new Socket("127.0.0.1", 4242);
 
+		String protectedData = user.getUserID() + "_" + user.getPassword();
+		PrintWriter writer = new PrintWriter(s.getOutputStream());
+		writer.println("LOGIN-" + protectedData);
+		writer.flush();
+
+		InputStreamReader streamReader = new InputStreamReader(s.getInputStream());
+		BufferedReader reader = new BufferedReader(streamReader);
+		String message = reader.readLine();
+		System.out.println(message);
 		s.close();
 	}
 }

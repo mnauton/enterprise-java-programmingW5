@@ -13,58 +13,60 @@ import mainYourPrime.*;
 public class Tokenizer {
 	
 	public static void main(String[] args) throws IOException {
-		
+
 		// TODO use buffered file reader to input data from file, use the Scanner interface
-		String path = "/Users/eir/eclipse-workspace/YourPrime/src/MovieDataset/metadata.csv";
-
-		Scanner scan = null;
-
+		String path = "/home/margaux/java-workspace/EnterpriseJavaProgrammingW5/src/MovieDataset/metadata.csv";
 		try {
-			scan = new Scanner(new BufferedReader(new FileReader("/Users/eir/eclipse-workspace/YourPrime/src/MovieDataset/metadata.csv")));
-			while (scan.hasNext()) {
-				System.out.println(scan.next());
+			Scanner scanner = new Scanner(new BufferedReader(new FileReader(path)));
+			scanner.useDelimiter("\n");
+			scanner.nextLine();
+			while (scanner.hasNext()) {
+				System.out.println(argsParser(scanner.next()));
 			}
-		} finally {
-			if (scan != null) {
-				scan.close();
-			}
+		} catch (IOException ex) {
+			ex.printStackTrace();
 		}
-
-		/*try {
-			BufferedReader reader = new BufferedReader(new FileReader("/Users/eir/eclipse-workspace/YourPrime/src/MovieDataset/metadata.csv"));
-			String line;
-			while ((line = reader.readLine()) != null) {
-				System.out.println(line);
-			}
-			reader.close();
-		} catch (IOException e) {
-			e.printStackTrace();
-		}*/
 	}
 
 	public static Map<String, Object> argsParser(String str) {
 		// TODO this method will capture argument using the String.split() method.
 		// You will have to split the string using the "," delimiter, and use the following logic to extract these arguments:
-		String doc = "/Users/eir/eclipse-workspace/YourPrime/src/MovieDataset/metadata.csv";
-		String[] stringArray = doc.split(",");
-		for(int i=0; i< stringArray.length; i++) {
-		//prints the tokens
-			System.out.println(stringArray[i]);
-		}
-
 		// 1 - Title: index 4 from the length of the String[]
 		// 2 - Genre: use String.contains() method to look for Action, Drama and Comedy - default: null
 		// 3 - Rating: index 2 from the length of the String[], you need to convert the rating to the scale of 5
 		// return a map with the type of arugment as String, and the value as object
 		
 		Map<String, Object> mapArgs = new HashMap<>();
+		int i = 0;
+		String[] e = str.trim().split(",");
+
+		for (String s : e) {
+			if (i == e.length - 4) {
+				mapArgs.put("Title", s);
+			} else if (i == e.length - 2) {
+				try {
+					mapArgs.put("Rating", Double.valueOf(s) / 10 * 5);
+				} catch (NumberFormatException ex) {
+					mapArgs.put("Rating", 0d);
+				}
+			}
+			mapArgs.put("Genre", getGenre(str));
+			i++;
+		}
 		return mapArgs;
 	}
 	
 	// TODO create a utility function that will return the type of genre based on the
 	// genre subtype keywords that you might find in the string
 	public static Class<? extends Genre> getGenre(String s) {
-
+		if (s.contains("Comedy")) {
+			return Comedy.class;
+		} else if (s.contains("Action")) {
+			return Action.class;
+		} else if (s.contains("Drama")) {
+			return Drama.class;
+		}
 		return null;
 	}
 }
+

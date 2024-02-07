@@ -21,44 +21,58 @@ public class yourPrimeServer {
 	}
 
 	// TODO complete the go() method on the server, you need to authenticate your user (given credentials)
-	// from the client, and only permit access if there is no outstanding fees. Use the Map variables to 
+	// from the client, and only permit access if there is no outstanding fees. Use the Map variables to
 	// verify user and check outstanding fees status. Return the correct message to the client.
 	//
 	public void go() throws IOException {
-		try (ServerSocket serverSock = new ServerSocket(4444)) {
-			while(true) {
+		try (ServerSocket serverSock = new ServerSocket(4242)) {
+			while (true) {
 				Socket s = serverSock.accept();
 				BufferedReader input = new BufferedReader(new InputStreamReader(s.getInputStream()));
 				PrintWriter writer = new PrintWriter(s.getOutputStream());
 				writer.close();
+				String message = authenticate(input.readLine());
+				writer.println(message);
+				writer.flush();
 			}
 		}
 	}
 
-	// TODO Complete authenticate using the utility boolean methods available here. You need to return the following 
+	// TODO Complete authenticate using the utility boolean methods available here. You need to return the following
 	// message to the client:
 	// 1 = Access granted -> if everything is ok
 	// 2 = Wrong credentials -> if username or / and password is / are invalid
 	// 3 = Outstanding fees - you are barred -> if account is overdue
 	//
 	private String authenticate(String input) {
-		System.out.println("Access granted");
-		System.out.println("Wrong credentials");
-		System.out.println("Outstanding fees - you are barred ");
+		String[] s = input.split("-");
+		if (s[0].equals("LOGIN")) {
+			if (checkUser(s[1], s[2])) {
+				if (checkAccount(s[1])) {
+					return "Access granted";
+				} else {
+					return "Outstanding fees";
+				}
+			} else {
+				return "Wrong credentials";
+			}
+		}
+		return "This is NOT a login request.";
 	}
 
 	private boolean checkUser(String user, String password) {
-		userDb.put("TestUser","password");
+		userDb.put("TestUser", "password");
 		if (userDb.containsKey(user) && password.equals(userDb.get(user)))
 			return true;
 		return false;
 	}
 
 	private boolean checkAccount(String user) {
-		feesDb.put("TestUser",0d);
-		if (feesDb.get(user) >= 0) {
+		feesDb.put("TestUser", 0d);
+		if (feesDb.get(user) > 0) {
 			return true;
 		}
 		return false;
 	}
 }
+
