@@ -1,3 +1,4 @@
+/*
 package secureYourPrime;
 import java.io.BufferedReader;
 import java.io.DataOutputStream;
@@ -64,13 +65,15 @@ public class SecureClient {
 		String message = reader.readLine();
 		System.out.println(message + "\n");
 
+*/
 /*		if (message.equals("Access granted")) {
 			String path = "/home/margaux/java-workspace/EnterpriseJavaProgrammingW5/src/secretFile.txt";
 			System.out.println("Creating secret file, and transmitting the file over socket\n");
 			writeFile(path);
 			transmitFile(socket, path);
 			System.out.println("Transmission completed\n");
-		}*/
+		}*//*
+
         
 		// close stream and socket
 		reader.close();
@@ -107,3 +110,4 @@ public class SecureClient {
 	
 	}
 }
+*/

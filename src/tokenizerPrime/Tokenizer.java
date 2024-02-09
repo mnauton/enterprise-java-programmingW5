@@ -17,11 +17,11 @@ public class Tokenizer {
 		// TODO use buffered file reader to input data from file, use the Scanner interface
 		String path = "/home/margaux/java-workspace/EnterpriseJavaProgrammingW5/src/MovieDataset/metadata.csv";
 		try {
-			Scanner scanner = new Scanner(new BufferedReader(new FileReader(path)));
-			scanner.useDelimiter("\n");
-			scanner.nextLine();
-			while (scanner.hasNext()) {
-				System.out.println(argsParser(scanner.next()));
+			Scanner scan = new Scanner(new BufferedReader(new FileReader(path)));
+			scan.useDelimiter("\n");
+			scan.nextLine();
+			while (scan.hasNext()) {
+				System.out.println(argsParser(scan.next()));
 			}
 		} catch (IOException ex) {
 			ex.printStackTrace();
@@ -50,7 +50,9 @@ public class Tokenizer {
 					mapArgs.put("Rating", 0d);
 				}
 			}
-			mapArgs.put("Genre", getGenre(str));
+			if (!mapArgs.containsKey("Genre")) {
+				mapArgs.put("Genre", getGenre(str));
+			}
 			i++;
 		}
 		return mapArgs;
