@@ -21,7 +21,7 @@ public class FuncInterfaceDemo {
 		Map<String, Integer> nameMap = new HashMap<>();
 		Integer value = nameMap.computeIfAbsent("John", s -> s.length());
 		System.out.println(value);
-		
+
 		value = nameMap.computeIfAbsent("John", String::length);
 		System.out.println(value);
 
@@ -42,11 +42,11 @@ public class FuncInterfaceDemo {
 		for (Map.Entry<String, Integer> m : salaries.entrySet()) {
 			System.out.println(m.getKey() + " : " + m.getValue());
 		}
-		
+		/*
 		IntToLongFunction intToLong = x -> x * 1000000;
 		System.out.println(intToLong.applyAsLong(3));
 		
-		
+
 		// Supplier functional interface example
 		Supplier<Double> lazyValue = () -> { return 9d; };
 		Double valueSquare = squareLazy(lazyValue);
@@ -118,7 +118,7 @@ public class FuncInterfaceDemo {
 		};
 		
 		char[] charA = {'a', 'b', 'c'};
-		System.out.println(myFactory.create(charA));
+		System.out.println(myFactory.create(charA));*/
 	}
 	
 	@FunctionalInterface
